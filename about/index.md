@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Bots
+title: About
 ---
 
 Coming Soon!

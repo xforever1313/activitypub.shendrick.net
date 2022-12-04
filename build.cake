@@ -75,7 +75,6 @@ void BuildPretzel()
 
 void RunPretzel( string argument, bool abortOnFail )
 {
-    CheckStoreDependency();
     CheckPretzelDependency();
 
     bool fail = false;

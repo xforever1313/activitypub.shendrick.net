@@ -5,15 +5,14 @@ category_pages_layout: category
 tag_pages_layout: tag
 
 # Site settings
-author: Bettadelic
-title: Bettadelic
-description: "We make colorful art of betta fish!"
-url: https://www.bettadelic.art/
-urlnohttp: www.bettadelic.art/
-contact: curator@bettadelic.art
-disqus_shortname: bettadelic
+author: Seth Hendrick
+title: Seth's Activity Pub Bots!
+description: "Bots that follow the Activity Pub protocol written by Seth Hendrick"
+url: https://activitypub.shendrick.net/
+urlnohttp: activitypub.shendrick.net
+contact: seth@shendrick.net
 enable_subcategories: false
-github: https://github.com/Bettadelic/bettadelic.art
+github: https://github.com/xforever1313/activitypub.shendrick.net
 
 exclude:
  - .gitignore

@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Bots
+title: Credits
 ---
 
 Coming Soon!

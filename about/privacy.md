@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Bots
+title: Privacy Policy
 ---
 
 Coming Soon!
