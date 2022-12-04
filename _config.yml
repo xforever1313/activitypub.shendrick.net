@@ -1,0 +1,28 @@
+pretzel: 
+    engine: razor
+
+category_pages_layout: category
+tag_pages_layout: tag
+
+# Site settings
+author: Bettadelic
+title: Bettadelic
+description: "We make colorful art of betta fish!"
+url: https://www.bettadelic.art/
+urlnohttp: www.bettadelic.art/
+contact: curator@bettadelic.art
+disqus_shortname: bettadelic
+enable_subcategories: false
+github: https://github.com/Bettadelic/bettadelic.art
+
+exclude:
+ - .gitignore
+ - .git
+ - .gitmodules
+ - .tgitconfig
+ - .vs
+ - .vscode
+ - build.cake
+ - tools
+ - .cake
+ - Readme.md

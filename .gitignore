@@ -1,0 +1,13 @@
+bin/
+obj/
+.vs/
+.nuget/
+*.suo
+packages/
+_site
+.pretzel/
+public/
+_plugins/
+.cake/
+node_modules/
+compiled_ts/
