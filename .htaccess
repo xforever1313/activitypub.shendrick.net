@@ -10,4 +10,4 @@ ErrorDocument 404 /404/
 # Redirect webfingers to the bots webfinger page
 RewriteCond %{REQUEST_URI} ^/.well-known/webfinger$
 RewriteCond %{QUERY_STRING} ^resource=acct:HVCC_Clock@activitypub.shendrick.net$
-RewriteRule ^(.*)$ https://%{HTTP_HOST}/static/bots/hvcc_clock/webfinger.json [R=301,L]
+RewriteRule ^(.*)$ https://%{HTTP_HOST}/static/bots/hvcc_clock/webfinger [R=301,L]
