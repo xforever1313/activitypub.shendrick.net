@@ -6,6 +6,8 @@ const string pretzelExe = "./_pretzel/src/Pretzel/bin/Debug/net6.0/Pretzel.dll";
 const string pluginDir = "./_plugins";
 const string categoryPlugin = "./_plugins/Pretzel.Categories.dll";
 const string extensionPlugin = "./_plugins/Pretzel.SethExtensions.dll";
+const string activityPubPlugin = "./_plugins/KristofferStrube.ActivityStreams.dll";
+const string websitePlugin = "./_plugins/WebsitePlugin.dll";
 
 DirectoryPath siteDir = Directory( "_site" );
 
@@ -39,8 +41,17 @@ Task( "build_pretzel" )
     }
 ).Description( "Compiles Pretzel" );
 
+Task( "build_plugin" )
+.Does(
+    () =>
+    {
+        BuildPlugin();
+    }
+).Description( "Builds the site-specific plugin" );
+
 Task( "build_all" )
 .IsDependentOn( "build_pretzel" )
+.IsDependentOn( "build_plugin" )
 .IsDependentOn( "taste" );
 
 // ---------------- Functions  ----------------
@@ -70,12 +81,41 @@ void BuildPretzel()
         CopyFiles( files, Directory( pluginDir ) );
     }
 
+    // Move ActivityPub
+    {
+        FilePathCollection files = GetFiles( "./_pretzel/src/ActivityStreams/src/KristofferStrube.ActivityStreams/bin/Debug/net6.0/KristofferStrube.ActivityStreams.*" );
+        CopyFiles( files, Directory( pluginDir ) );
+    }
+
     Information( "Building Pretzel... Done!" );
+}
+
+void BuildPlugin()
+{
+    CheckPretzelDependency();
+
+    Information( "Building Plugin..." );
+
+    var settings = new DotNetPublishSettings
+    {
+        Configuration = "Debug",
+        NoBuild = false,
+        NoRestore = false
+    };
+
+    DotNetPublish( "./_WebsitePlugin/WebsitePlugin/WebsitePlugin.csproj", settings );
+
+    EnsureDirectoryExists( pluginDir );
+    FilePathCollection files = GetFiles( "./_WebsitePlugin/WebsitePlugin/bin/Debug/net6.0/WebsitePlugin.*" );
+    CopyFiles( files, Directory( pluginDir ) );
+
+    Information( "Building Plugin... Done!" );
 }
 
 void RunPretzel( string argument, bool abortOnFail )
 {
     CheckPretzelDependency();
+    CheckSitePluginDependency();
 
     bool fail = false;
     string onStdOut( string line )
@@ -125,10 +165,19 @@ void CheckPretzelDependency()
     if(
         ( FileExists( pretzelExe ) == false ) ||
         ( FileExists( categoryPlugin ) == false ) ||
-        ( FileExists( extensionPlugin ) == false )
+        ( FileExists( extensionPlugin ) == false ) ||
+        ( FileExists( activityPubPlugin ) == false )
     )
     {
         BuildPretzel();
+    }
+}
+
+void CheckSitePluginDependency()
+{
+    if( FileExists( websitePlugin ) == false )
+    {
+        BuildPlugin();
     }
 }
 

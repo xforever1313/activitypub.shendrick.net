@@ -1,9 +1,0 @@
-{
-    "subject": "acct:HVCC_Clock@activitypub.shendrick.net",
-
-    "links": [{
-        "rel": "self",
-        "type": "application/activity+json",
-        "href": "https://activitypub.shendrick.net/@HVCC_Clock"
-    }]
-}
