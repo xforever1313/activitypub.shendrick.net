@@ -49,7 +49,7 @@ namespace WebsitePlugin
 
                 string pageContent = GetProfileJson( clockBotInfo );
 
-                var profilePage = new Page
+                var profilePage = new RawPage
                 {
                     Title = $"{clockBotInfo.UserName} Profile",
                     Content = pageContent,
