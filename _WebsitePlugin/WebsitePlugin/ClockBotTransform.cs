@@ -47,26 +47,14 @@ namespace WebsitePlugin
             {
                 ClockBotInfo clockBotInfo = botPage.ToClockBotInfo( siteContext );
 
-                string pageContent = GetProfileJson( clockBotInfo );
-
-                var profilePage = new RawPage
-                {
-                    Title = $"{clockBotInfo.UserName} Profile",
-                    Content = pageContent,
-                    File = Path.Combine( siteContext.GetClockBotInputStaticPath( clockBotInfo.UserName ), "profile.json" ),
-                    Filepath = Path.Combine( siteContext.GetClockBotOutputStaticPath( clockBotInfo.UserName ), "profile.json" ),
-                    OutputFile = Path.Combine( siteContext.GetClockBotOutputStaticPath( clockBotInfo.UserName ), "profile.json" ),
-                    Bag = new Dictionary<string, object>()
-                };
-                profilePage.Url = new LinkHelper().EvaluateLink( siteContext, profilePage );
-
-                siteContext.Pages.Add( profilePage );
+                AddProfilePage( clockBotInfo, siteContext );
+                AddWebFinger( clockBotInfo, siteContext );
             }
         }
 
-        private string GetProfileJson( ClockBotInfo clockInfo )
+        private void AddProfilePage( ClockBotInfo clockBotInfo, SiteContext siteContext )
         {
-            var service = clockInfo.ToService();
+            var service = clockBotInfo.ToService();
             string jsonString = JsonSerializer.Serialize(
                 service,
                 new JsonSerializerOptions
@@ -75,7 +63,43 @@ namespace WebsitePlugin
                 }
             );
 
-            return jsonString;
+            var profilePage = new RawPage
+            {
+                Title = $"{clockBotInfo.UserName} Profile",
+                Content = jsonString,
+                File = Path.Combine( siteContext.GetClockBotInputStaticPath( clockBotInfo.UserName ), "profile.json" ),
+                Filepath = Path.Combine( siteContext.GetClockBotOutputStaticPath( clockBotInfo.UserName ), "profile.json" ),
+                OutputFile = Path.Combine( siteContext.GetClockBotOutputStaticPath( clockBotInfo.UserName ), "profile.json" ),
+                Bag = new Dictionary<string, object>()
+            };
+            profilePage.Url = new LinkHelper().EvaluateLink( siteContext, profilePage );
+
+            siteContext.Pages.Add( profilePage );
+        }
+
+        private void AddWebFinger( ClockBotInfo clockBotInfo, SiteContext siteContext )
+        {
+            var webFinger = clockBotInfo.ToWebFinger();
+            string jsonString = JsonSerializer.Serialize(
+                webFinger,
+                  new JsonSerializerOptions
+                  {
+                      WriteIndented = true
+                  }
+            );
+
+            var webFingerPage = new RawPage
+            {
+                Title = $"{clockBotInfo.UserName} Webfinger",
+                Content = jsonString,
+                File = Path.Combine( siteContext.GetClockBotInputStaticPath( clockBotInfo.UserName ), "webfinger.json" ),
+                Filepath = Path.Combine( siteContext.GetClockBotOutputStaticPath( clockBotInfo.UserName ), "webfinger.json" ),
+                OutputFile = Path.Combine( siteContext.GetClockBotOutputStaticPath( clockBotInfo.UserName ), "webfinger.json" ),
+                Bag = new Dictionary<string, object>()
+            };
+            webFingerPage.Url = new LinkHelper().EvaluateLink( siteContext, webFingerPage );
+
+            siteContext.Pages.Add( webFingerPage );
         }
     }
 }

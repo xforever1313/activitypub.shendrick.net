@@ -26,6 +26,8 @@ namespace WebsitePlugin
 {
     public class ClockBotInfo
     {
+        public string WebFinger { get; init; } = "";
+
         /// <summary>
         /// The username of the bot.  This becomes "preferred username"
         /// in activity pub.
@@ -222,6 +224,7 @@ namespace WebsitePlugin
                 Summary = ReadDict( "summary" ),
                 TimeZone = TimeZoneInfo.FindSystemTimeZoneById( ReadDict( "timezone" ) ),
                 UserName = userName,
+                WebFinger = $"{userName}@{siteContext.GetSiteUrlWithoutHttp()}",
                 Website = TryReadUrl( "website", UriKind.Absolute ),
                 Wikipedia = TryReadUrl( "wikipedia", UriKind.Absolute )
             };
@@ -328,6 +331,43 @@ namespace WebsitePlugin
             profile.ExtensionData = extensionData;
 
             return profile;
+        }
+
+        public static WebFinger ToWebFinger( this ClockBotInfo clockBot )
+        {
+            var webFingerLinks = new List<WebFingerLinks>
+            {
+                new WebFingerLinks
+                {
+                    Rel = "self",
+                    Type = "application/activity+json",
+                    Href = clockBot.ProfileUrl
+                },
+                new WebFingerLinks
+                {
+                    Rel = "http://webfinger.net/rel/profile-page",
+                    Type = "text/html",
+                    Href = clockBot.BotInfoUrl
+                }
+            };
+
+            if( clockBot.IconPath is not null )
+            {
+                webFingerLinks.Add(
+                    new WebFingerLinks
+                    {
+                        Rel = "http://webfinger.net/rel/avatar",
+                        Type = $"image/{Path.GetExtension( clockBot.IconPath.ToString() ).TrimStart( '.' )}",
+                        Href = clockBot.IconPath
+                    }
+                );
+            }
+
+            return new WebFinger
+            {
+                Subject = $"acct:{clockBot.WebFinger}",
+                Links = webFingerLinks.ToArray()
+            };
         }
     }
 }
