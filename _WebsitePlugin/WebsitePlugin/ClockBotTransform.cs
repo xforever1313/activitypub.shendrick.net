@@ -18,6 +18,7 @@
 
 using System.Composition;
 using System.Text.Json;
+using KristofferStrube.ActivityStreams;
 using Pretzel.Logic.Extensibility;
 using Pretzel.Logic.Templating.Context;
 
@@ -30,14 +31,12 @@ namespace WebsitePlugin
         {
             Console.WriteLine( "Creating Activitypub" );
 
-            // Step 1: Get all pages that are of the bot type.
-            //         We'll need to create the activitypub pages
-            //         of them.
-
-            foreach( ClockBotInfo clockBotInfo in siteContext.GetClockBotInformation() )
+            IEnumerable<ClockBotInfo> clockBots = siteContext.GetClockBotInformation();
+            foreach( ClockBotInfo clockBotInfo in clockBots )
             {
                 AddProfilePage( clockBotInfo, siteContext );
                 AddWebFinger( clockBotInfo, siteContext );
+                AddFollowing( clockBotInfo, clockBots, siteContext );
             }
         }
 
@@ -89,6 +88,59 @@ namespace WebsitePlugin
             webFingerPage.Url = new LinkHelper().EvaluateLink( siteContext, webFingerPage );
 
             siteContext.Pages.Add( webFingerPage );
+        }
+    
+        private void AddFollowing( ClockBotInfo currentBot, IEnumerable<ClockBotInfo> allBots, SiteContext siteContext )
+        {
+            var following = new List<string>();
+
+            const string key = "additional_follows";
+            if( siteContext.Config.ContainsKey( key ) )
+            {
+                IEnumerable<string>? additionalFollows = siteContext.Config[key] as IEnumerable<string>;
+                if( additionalFollows is null )
+                {
+                    throw new ArgumentException( $"'{key}' must be a list type." );
+                }
+
+                following.AddRange( additionalFollows );
+            }
+
+            foreach( ClockBotInfo clockBot in allBots )
+            {
+                if( currentBot.WebFinger == clockBot.WebFinger )
+                {
+                    continue;
+                }
+
+                // Following seems to be the profile URL, use that.
+                if( clockBot.ProfileUrl is not null )
+                {
+                    following.Add( clockBot.ProfileUrl.ToString() );
+                }
+            }
+
+            var followingCollection = currentBot.ToFollowing( following );
+            string jsonString = JsonSerializer.Serialize(
+                followingCollection,
+                new JsonSerializerOptions
+                {
+                    WriteIndented = true
+                } 
+            );
+
+            var followingPage = new RawPage
+            {
+                Title = $"{currentBot.UserName} following",
+                Content = jsonString,
+                File = Path.Combine( siteContext.GetClockBotInputStaticPath( currentBot.UserName ), "following.json" ),
+                Filepath = Path.Combine( siteContext.GetClockBotOutputStaticPath( currentBot.UserName ), "following.json" ),
+                OutputFile = Path.Combine( siteContext.GetClockBotOutputStaticPath( currentBot.UserName ), "following.json" ),
+                Bag = new Dictionary<string, object>()
+            };
+            followingPage.Url = new LinkHelper().EvaluateLink( siteContext, followingPage );
+
+            siteContext.Pages.Add( followingPage );
         }
     }
 }

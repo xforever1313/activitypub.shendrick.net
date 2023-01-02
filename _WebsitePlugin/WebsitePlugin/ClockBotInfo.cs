@@ -18,6 +18,7 @@
 
 using System.Text.Json;
 using KristofferStrube.ActivityStreams;
+using KristofferStrube.ActivityStreams.JsonLD;
 using Pretzel.Logic.Templating.Context;
 using Pretzel.SethExtensions;
 using Pretzel.SethExtensions.ActivityPub;
@@ -377,5 +378,28 @@ namespace WebsitePlugin
                 Links = webFingerLinks.ToArray()
             };
         }
+    
+        public static OrderedCollection ToFollowing( this ClockBotInfo currentBot, IList<string> following )
+        {
+            return new OrderedCollection
+            {
+                JsonLDContext = new ITermDefinition[]
+                {
+                    new ReferenceTermDefinition( new Uri( "https://www.w3.org/ns/activitystreams") )
+                },
+                OrderedItems = following.Select(
+                    f => new Link
+                    {
+                        Href = new Uri( f )
+                    }
+                ).ToArray<IObjectOrLink>(),
+                Type = new string[]{ "OrderedCollection" },
+                TotalItems = (uint)following.Count,
+
+                // ID should be a self-reference.
+                Id = currentBot.FollowingUrl?.ToString()
+            };
+        }
+    
     }
 }

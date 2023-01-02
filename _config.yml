@@ -16,6 +16,10 @@ github: https://github.com/xforever1313/activitypub.shendrick.net
 
 clockbotservice: /clockbots
 
+additional_follows:
+ - https://mastodon.sdf.org/users/thenaterhood
+ - https://tech.lgbt/users/xforever1313
+
 exclude:
  - .gitignore
  - .git
