@@ -104,6 +104,8 @@ namespace WebsitePlugin
         /// </summary>
         public Uri? IconPath { get; init; } = null;
 
+        public string ImageCredit { get; init; } = "";
+
         /// <summary>
         /// When the bot was created.
         /// 
@@ -122,6 +124,15 @@ namespace WebsitePlugin
         /// The public key.  Mastodon needs this.
         /// </summary>
         public string PublicKeyContents { get; init; } = "";
+
+        /// <summary>
+        /// Description of where the clock tower is located in real life.
+        /// </summary>
+        public string Location { get; init; } = "";
+
+        public float? Latitude { get; init; } = null;
+
+        public float? Longitude { get; init; } = null;
 
         /// <summary>
         /// The time zone the clock is being emulated in is located.
@@ -201,6 +212,11 @@ namespace WebsitePlugin
             string baseStaticUrl = siteContext.UrlCombine( $"bots/clockbots/{userName}" );
 
             string iconUrl = siteContext.UrlCombine( ReadDict( "icon" ) );
+            string imageCredit = "";
+            if( page.Bag.ContainsKey( "imagecredit" ) )
+            {
+                imageCredit = page.Bag["imagecredit"]?.ToString() ?? "";
+            }
 
             return new ClockBotInfo
             {
@@ -217,9 +233,14 @@ namespace WebsitePlugin
                 FullName = ReadDict( "fullname" ),
                 GitHub = TryReadUrl( "github", UriKind.Absolute ),
                 IconPath = new Uri( iconUrl, UriKind.Absolute ),
+                ImageCredit = imageCredit,
 
                 // Inbox needs to accept POST requests, must use inbox service.
                 InboxUrl = new Uri( $"{baseDynamicUrl}/inbox.json" ),
+
+                Latitude = float.Parse( ReadDict( "latitude" ) ),
+                Location = ReadDict( "location" ),
+                Longitude = float.Parse( ReadDict( "longitude" ) ),
 
                 // Outbox is dynamic, must use service.
                 OutboxUrl = new Uri( $"{baseDynamicUrl}/outbox.json" ),

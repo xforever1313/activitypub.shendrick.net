@@ -12,14 +12,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     @{
         StringBuilder tagBuilder = new StringBuilder();
-        foreach( string tag in Model.Page.Tags )
+        if( Model.Page.Bag.ContainsKey( "tags" ) )
         {
-            tagBuilder.Append( tag + "," );
-        }
-        if( tagBuilder.Length > 0 )
-        {
-            tagBuilder = tagBuilder.Remove( tagBuilder.Length - 1, 1 );
-            @:<meta name="keywords" content="@tagBuilder.ToString()activitypub,bots,mastodon" />
+            var tags = Model.Page.Bag["tags"] as IEnumerable<string>;
+            foreach( string tag in tags ?? Array.Empty<string>() )
+            {
+                tagBuilder.Append( tag + "," );
+            }
+            if( tagBuilder.Length > 0 )
+            {
+                tagBuilder = tagBuilder.Remove( tagBuilder.Length - 1, 1 );
+                @:<meta name="keywords" content="@tagBuilder.ToString()activitypub,bots,mastodon" />
+            }
         }
 
         if( Model.Page.Bag.ContainsKey( "description" ) )
@@ -49,7 +53,7 @@
     <meta name="msapplication-TileImage" content="/static/favicons/ms-icon-144x144.png">
     -->
 
-    <title>@Model.Title</title>
+    <title>@Model.Page.Title</title>
 
     <!-- Bootstrap styles -->
     <link rel="stylesheet" href="/static/css/bootstrap.min.css">
@@ -113,10 +117,10 @@
                     <div class="col-md-4 footer-widget">
                         <ul>
                             <li>
-                                <a href="/about/privacy/">Privacy Policy</a>
+                                <a href="/about/privacy.html">Privacy Policy</a>
                             </li>
                             <li>
-                                <a href="/about/credits/">Credits</a>
+                                <a href="/about/credits.html">Credits</a>
                             </li>
                         </ul>
                     </div>

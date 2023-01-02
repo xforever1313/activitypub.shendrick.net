@@ -7,46 +7,99 @@ layout: pagebase
     ClockBotInfo botInfo = Model.Page.ToClockBotInfo( Model.Site );
 }
 <article id="maincontents">
-    <h1>@Model.Page.Title</h1>
-
-    <div id="pagecontents">
-        <h2>How to follow</h2>
-
-        <div>
-            <p>
-                Open your ActivityPub supported application (such as Mastodon)
-                and search for the following webfinger string:
-            </p>
-            <p>
-                @botInfo.get_WebFinger()
-            </p>
-        </div>
-
-        <h2>Metadata</h2>
-        <ul>
-            <li>
-                <strong>Location: </strong>
-                @Model.Page.Bag["location"]
-            </li>
-            <li>
-                <strong>Coordinates: </strong>
-                @(Model.Page.Bag["latitude"]), @Model.Page.Bag["longitude"]
-            </li>
-            <li>
-                <strong>Timezone: </strong>
-                @Model.Page.Bag["timezone"]
-            </li>
-            <li>
-                <strong>Website: </strong>
-                <a href="@botInfo.get_Website()" @Raw( @SethHtmlFormatter.ATagProperties )>
-                    @botInfo.get_Website()
-                </a>
-            </li>
-        </ul>
-        @if( string.IsNullOrWhiteSpace( Model.Content ) == false )
+     <header>
+        @if( botInfo.get_IconPath() != null )
         {
-            <h2>Additional Information</h2>
-            @Raw( Model.Content )
+            <div class="lead-image">
+                <img class="img-responsive" src="@botInfo.get_IconPath()" alt="Clock Tower Image"/>
+            </div>
+            @if( string.IsNullOrWhiteSpace( botInfo.get_ImageCredit() ) == false )
+            {
+                <div>
+                    <strong>Image Credit: </strong>
+                    @botInfo.get_ImageCredit()
+                </div>
+            }
         }
+    </header>
+    <div class="body">
+        <div id="pagecontents">
+            <h1>@Model.Page.Title</h1>
+
+            <div>
+                <strong>Webfinger: </strong>@@@botInfo.get_WebFinger()
+            </div>
+
+            @if( string.IsNullOrWhiteSpace( Model.Content ) == false )
+            {
+                <h2>About</h2>
+                @Raw( Model.Content )
+            }
+            <h2>How to follow</h2>
+            <div>
+                <p>
+                    Open your ActivityPub supported application (such as Mastodon)
+                    and search for the following webfinger string:
+                </p>
+                <p>
+                    @@@botInfo.get_WebFinger()
+                </p>
+            </div>
+
+            <h2>Metadata</h2>
+            <ul>
+                @if( botInfo.get_Location() != null )
+                {
+                    <li>
+                        <strong>Location: </strong>
+                        @botInfo.get_Location()
+                    </li>
+                }
+                @if(
+                    ( botInfo.get_Latitude() != null ) &&
+                    ( botInfo.get_Longitude() != null )
+                )
+                {
+                    <li>
+                        <strong>Coordinates: </strong>
+                        @(botInfo.get_Latitude()), @(botInfo.get_Longitude())
+                    </li>       
+                }
+                @if( botInfo.get_TimeZone() != null )
+                {
+                    <li>
+                        <strong>Timezone: </strong>
+                        @botInfo.get_TimeZone()
+                    </li>
+                }
+                @if( botInfo.get_Website() != null )
+                {
+                    <li>
+                        <strong>Website: </strong>
+                        <a href="@botInfo.get_Website()" @Raw( @SethHtmlFormatter.ATagProperties )>
+                            @botInfo.get_Website()
+                        </a>
+                    </li>
+                }
+                @if( botInfo.get_Wikipedia() != null )
+                {
+                    <li>
+                        <strong>Wikipedia: </strong>
+                        <a href="@botInfo.get_Wikipedia()" @Raw( @SethHtmlFormatter.ATagProperties )>
+                            @botInfo.get_Wikipedia()
+                        </a>
+                    </li>
+                }
+                @if( botInfo.get_GitHub() != null )
+                {
+                    <li>
+                        <strong>Bot Source Code: </strong>
+                        <a href="@botInfo.get_GitHub()" @Raw( @SethHtmlFormatter.ATagProperties )>
+                            @botInfo.get_GitHub()
+                        </a>
+                    </li>
+                }
+            </ul>
+        </div>
     </div>
 </article>
