@@ -2,6 +2,7 @@
 layout: page
 title: Credits
 description: Third-party and Open Source Credits
+tags: [credits, foss, open, source]
 ---
 
 There are two portions of this website, a "static" portion (things that rarely change) and a "dynamic" portion (such as ActivityPub outboxes and inboxes).  This page gives the third-party and open source licenses used to make the static website possible.
