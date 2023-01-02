@@ -26,4 +26,7 @@ exclude:
  - build.cake
  - tools
  - .cake
+ - cake.config
  - Readme.md
+ - .env
+ 

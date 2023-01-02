@@ -2,6 +2,7 @@ bin/
 obj/
 .vs/
 .nuget/
+.env
 *.suo
 packages/
 _site

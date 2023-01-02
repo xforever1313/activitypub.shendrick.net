@@ -1,3 +1,9 @@
+// ---------------- Includes ----------------
+
+#addin nuget:?package=dotenv.net&version=3.1.2
+
+using dotenv.net;
+
 // ---------------- Constants ----------------
 
 string target = Argument( "target", "taste" );
@@ -116,6 +122,20 @@ void RunPretzel( string argument, bool abortOnFail )
 {
     CheckPretzelDependency();
     CheckSitePluginDependency();
+
+    FilePath envFile = File( ".env" );
+    if( FileExists( envFile ) )
+    {
+        DotEnv.Load( new DotEnvOptions( envFilePaths: new string[] { envFile.ToString() } ) );
+    }
+
+    string keyLocation = EnvironmentVariable( "APP_BASE_KEY_DIRECTORY" );
+    if( string.IsNullOrWhiteSpace( keyLocation ) )
+    {
+        throw new CakeException(
+            "Git repo specifying keys must be checked out, and the base location set to the 'APP_BASE_KEY_DIRECTORY' environment variable."
+        );
+    }
 
     bool fail = false;
     string onStdOut( string line )
