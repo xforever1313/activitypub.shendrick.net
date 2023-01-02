@@ -38,7 +38,7 @@ pipeline
                         [$class: 'RelativeTargetDirectory', relativeTargetDir: 'keys']
                     ],
                     userRemoteConfigs: [
-                        [credentialsId: 'shendrick.net', url: 'git@git.lan.thenaterhood.com:activitypub.shendrick.net/ClockBotKeys.git']
+                        [url: 'http://git.lan.thenaterhood.com/activitypub.shendrick.net/ClockBotKeys.git']
                     ]
                 ]);
             }
