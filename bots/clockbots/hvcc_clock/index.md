@@ -1,7 +1,7 @@
 ---
 layout: clockbot
 Title: HVCC Clocktower
-username: "HVCC_Clock"
+username: "hvcc_clock"
 fullname: "HVCC Clocktower"
 website: "https://www.hvcc.edu/"
 github: "https://github.com/xforever1313/HVCCClockTowerBot"
