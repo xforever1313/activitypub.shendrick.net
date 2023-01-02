@@ -29,6 +29,18 @@ pipeline
             steps
             {
                 checkout scm;
+                checkout([
+                    $class: 'GitSCM',
+                    branches: [[name: '*/main']],
+                    extensions:[
+                        [$class: 'SubmoduleOption', disableSubmodules: false, parentCredentials: false, recursiveSubmodules: true, reference: '', trackingSubmodules: false],
+                        [$class: 'CleanCheckout'],
+                        [$class: 'RelativeTargetDirectory', relativeTargetDir: 'keys']
+                    ],
+                    userRemoteConfigs: [
+                        [credentialsId: 'shendrick.net', url: 'git@git.lan.thenaterhood.com:activitypub.shendrick.net/ClockBotKeys.git']
+                    ]
+                ]);
             }
         }
 
@@ -39,7 +51,7 @@ pipeline
                 docker
                 {
                     image 'mcr.microsoft.com/dotnet/sdk:6.0'
-                    args "-e HOME='${env.WORKSPACE}'"
+                    args "-e HOME='${env.WORKSPACE}' -e APP_BASE_KEY_DIRECTORY='${env.WORKSPACE}/keys'"
                     reuseNode true
                 }
             }
