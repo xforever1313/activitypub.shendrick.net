@@ -41,6 +41,11 @@ namespace WebsitePlugin
         public string FullName { get; init; } = "";
 
         /// <summary>
+        /// URL to the bot's specific web finger json file.
+        /// </summary>
+        public Uri? WebFingerUrl { get; init; } = null;
+
+        /// <summary>
         /// The URL to the profile JSON information.
         /// </summary>
         public Uri? ProfileUrl { get; init; } = null;
@@ -225,6 +230,9 @@ namespace WebsitePlugin
                 TimeZone = TimeZoneInfo.FindSystemTimeZoneById( ReadDict( "timezone" ) ),
                 UserName = userName,
                 WebFinger = $"{userName}@{siteContext.GetSiteUrlWithoutHttp()}",
+
+                // web finger information is static.
+                WebFingerUrl = new Uri( $"{baseStaticUrl}/webfinger.json" ),
                 Website = TryReadUrl( "website", UriKind.Absolute ),
                 Wikipedia = TryReadUrl( "wikipedia", UriKind.Absolute )
             };

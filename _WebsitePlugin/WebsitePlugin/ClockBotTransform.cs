@@ -34,19 +34,8 @@ namespace WebsitePlugin
             //         We'll need to create the activitypub pages
             //         of them.
 
-            var layoutsToGrab = new string[]
+            foreach( ClockBotInfo clockBotInfo in siteContext.GetClockBotInformation() )
             {
-                "clockbot"
-            };
-
-            IEnumerable<Page> botPages = siteContext.Pages.Where(
-                p => p.Bag.ContainsKey( "layout" ) && layoutsToGrab.Contains( p.Bag["layout"].ToString() )
-            ).ToArray();
-
-            foreach( Page botPage in botPages )
-            {
-                ClockBotInfo clockBotInfo = botPage.ToClockBotInfo( siteContext );
-
                 AddProfilePage( clockBotInfo, siteContext );
                 AddWebFinger( clockBotInfo, siteContext );
             }

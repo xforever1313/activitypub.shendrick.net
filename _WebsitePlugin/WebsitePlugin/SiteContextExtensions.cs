@@ -41,5 +41,19 @@ namespace WebsitePlugin
                 userName
             );
         }
+
+        public static IEnumerable<ClockBotInfo> GetClockBotInformation( this SiteContext siteContext )
+        {
+            var layoutsToGrab = new string[]
+            {
+                "clockbot"
+            };
+
+            return siteContext.Pages.Where(
+                p => p.Bag.ContainsKey( "layout" ) && layoutsToGrab.Contains( p.Bag["layout"].ToString() )
+            ).Select(
+                p => p.ToClockBotInfo( siteContext )
+            ).ToArray();
+        }
     }
 }
