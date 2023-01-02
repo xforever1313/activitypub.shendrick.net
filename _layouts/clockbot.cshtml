@@ -1,10 +1,52 @@
 ---
 layout: pagebase
 ---
+@using Pretzel.SethExtensions;
+@using WebsitePlugin;
+@{
+    ClockBotInfo botInfo = Model.Page.ToClockBotInfo( Model.Site );
+}
 <article id="maincontents">
     <h1>@Model.Page.Title</h1>
 
     <div id="pagecontents">
-        @Raw( Model.Content )
+        <h2>How to follow</h2>
+
+        <div>
+            <p>
+                Open your ActivityPub supported application (such as Mastodon)
+                and search for the following webfinger string:
+            </p>
+            <p>
+                @botInfo.get_WebFinger()
+            </p>
+        </div>
+
+        <h2>Metadata</h2>
+        <ul>
+            <li>
+                <strong>Location: </strong>
+                @Model.Page.Bag["location"]
+            </li>
+            <li>
+                <strong>Coordinates: </strong>
+                @(Model.Page.Bag["latitude"]), @Model.Page.Bag["longitude"]
+            </li>
+            <li>
+                <strong>Timezone: </strong>
+                @Model.Page.Bag["timezone"]
+            </li>
+            <li>
+                <strong>Website: </strong>
+                <a href="@botInfo.get_Website()" @Raw( @SethHtmlFormatter.ATagProperties )>
+                    @botInfo.get_Website()
+                </a>
+            </li>
+        </ul>
+        @if( string.IsNullOrWhiteSpace( Model.Content ) == false )
+        {
+            <h2>Additional Information</h2>
+            @Raw( Model.Content )
+        }
     </div>
 </article>
