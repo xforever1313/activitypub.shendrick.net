@@ -37,6 +37,7 @@ namespace WebsitePlugin
                 AddProfilePage( clockBotInfo, siteContext );
                 AddWebFinger( clockBotInfo, siteContext );
                 AddFollowing( clockBotInfo, clockBots, siteContext );
+                AddHtaccess( clockBotInfo, siteContext );
             }
         }
 
@@ -141,6 +142,31 @@ namespace WebsitePlugin
             followingPage.Url = new LinkHelper().EvaluateLink( siteContext, followingPage );
 
             siteContext.Pages.Add( followingPage );
+        }
+    
+        private void AddHtaccess( ClockBotInfo clockBotInfo, SiteContext siteContext )
+        {
+            const string content =
+@"<Files webfinger.json>
+    ForceType application/jrd+json
+</Files>
+<Files *.json>
+    ForceType application/activity+json
+</Files>
+";
+
+            var htaccessPage = new RawPage
+            {
+                Title = $"{clockBotInfo.UserName} htaccess",
+                Content = content,
+                File = Path.Combine( siteContext.GetClockBotInputStaticPath( clockBotInfo.UserName ), ".htaccess" ),
+                Filepath = Path.Combine( siteContext.GetClockBotOutputStaticPath( clockBotInfo.UserName ), ".htaccess" ),
+                OutputFile = Path.Combine( siteContext.GetClockBotOutputStaticPath( clockBotInfo.UserName ), ".htaccess" ),
+                Bag = new Dictionary<string, object>()
+            };
+            htaccessPage.Url = new LinkHelper().EvaluateLink( siteContext, htaccessPage );
+
+            siteContext.Pages.Add( htaccessPage );
         }
     }
 }
