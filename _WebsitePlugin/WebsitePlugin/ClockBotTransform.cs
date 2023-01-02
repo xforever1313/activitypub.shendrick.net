@@ -146,15 +146,16 @@ namespace WebsitePlugin
     
         private void AddHtaccess( ClockBotInfo clockBotInfo, SiteContext siteContext )
         {
+            // *.json must come first, webfinger must come second.
+            // This way webfinger's rule gets applied last.
             const string content =
-@"<Files webfinger.json>
-    ForceType application/jrd+json
-</Files>
-<Files *.json>
+@"<Files *.json>
     ForceType application/activity+json
 </Files>
+<Files webfinger.json>
+    ForceType application/jrd+json
+</Files>
 ";
-
             var htaccessPage = new RawPage
             {
                 Title = $"{clockBotInfo.UserName} htaccess",
