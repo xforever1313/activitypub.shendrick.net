@@ -16,7 +16,7 @@ location: "Troy, NY, USA"
 latitude: 42.69676
 longitude: -73.68562
 timezone: "America/New_York"
-tags: ["college", "community", "hudson", "hvcc", "valley"]
+tags: ["college", "community", "hudson", "hvcc", "new york", "ny", "troy", "united states", "usa", "valley"]
 ---
 
 This clock tower is one of the landmarks at Hudson Valley Community College.  It is located in the quad between the Administration building (ADM), the Bulmer Telecommunications Center (BTC), the Marvin Library (MRV) and the Guenther Enrollment Services building (GUN) at the end of George E Halliday Drive.
