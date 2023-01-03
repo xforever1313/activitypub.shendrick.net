@@ -11,7 +11,7 @@ layout: pagebase
         @if( botInfo.get_IconPath() != null )
         {
             <div class="lead-image">
-                <img class="img-responsive" src="@botInfo.get_IconPath()" alt="Clock Tower Image"/>
+                <img class="img-responsive" src="@botInfo.get_IconPath().LocalPath" alt="Clock Tower Image"/>
             </div>
             @if( string.IsNullOrWhiteSpace( botInfo.get_ImageCredit() ) == false )
             {
