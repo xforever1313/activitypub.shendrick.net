@@ -1,8 +1,14 @@
 @using System
 @using System.Collections.Generic
+@using System.Globalization
+@using System.IO
 @using System.Text
 @using Pretzel.Logic.Templating.Context
 @using Page = Pretzel.Logic.Templating.Context.Page
+
+@{
+    TextInfo enUsTextInfo = new CultureInfo( "en-US", false ).TextInfo;
+}
 
 <!DOCTYPE html>
 <html lang="en-US">
@@ -96,6 +102,30 @@
         <div class="widewrapper subheader">
             <div class="container">
                 <div class="clean-breadcrumb">
+                    <span class="separator"> / </span>
+                    @{
+                        var breadCrumbBuilder = new StringBuilder();
+                        breadCrumbBuilder.Append( "/" );
+                    }
+                    @foreach( string segment in new Uri( Model.Page.Url ).Segments )
+                    {
+                        if( segment == "/" )
+                        {
+                            continue;
+                        }
+                        else if( segment == "index.html" )
+                        {
+                            continue;
+                        }
+                        breadCrumbBuilder.Append( segment );
+                        string displaySegment = segment.TrimEnd( '/' );
+                        if( displaySegment.EndsWith( ".html" ) )
+                        {
+                            displaySegment = Path.GetFileNameWithoutExtension( displaySegment );
+                        }
+                        <a href="@breadCrumbBuilder.ToString()">@enUsTextInfo.ToTitleCase( displaySegment )</a>
+                        <span class="separator"> / </span>
+                    }
                 </div>
                 <div class="clean-searchbox">
                     <iframe
