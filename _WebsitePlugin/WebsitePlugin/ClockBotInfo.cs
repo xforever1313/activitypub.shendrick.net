@@ -343,9 +343,16 @@ namespace WebsitePlugin
             );
             profile.Attachment = attachments;
 
-            if( clockBot.GitHub is not null )
+            if( string.IsNullOrWhiteSpace( clockBot.ImageCredit ) == false )
             {
-                attachments.Add( ServiceExtensions.CreateGithubAttachment( clockBot.GitHub?.ToString() ) );
+                attachments.Add(
+                    new PropertyValue
+                    {
+                        Name = new string[] { "Icon Image Credit" },
+                        Type = new string[] { "PropertyValue" },
+                        Value = clockBot.ImageCredit
+                    }
+                );
             }
 
             var key = new ProfilePublicKey
