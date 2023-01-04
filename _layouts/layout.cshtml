@@ -97,6 +97,17 @@
             <div class="container">
                 <div class="clean-breadcrumb">
                 </div>
+                <div class="clean-searchbox">
+                    <iframe
+                        src="https://duckduckgo.com/search.html?site=@(Model.Site.Config["urlnohttp"])&amp;prefill=Search%20Site%20via%20DuckDuckGo"
+                        class="ddg-search"
+                        style="overflow:hidden;padding:0;height:40px;"
+                        frameborder="0">
+                    </iframe>
+                    <noscript>
+                        Search will not work without JavaScript, you will instead search all of DuckDuckGo.
+                    </noscript>
+                </div>
             </div>
         </div>
     </header>
