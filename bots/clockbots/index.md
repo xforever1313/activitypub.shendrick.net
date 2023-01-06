@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Clock bots
-description: About the various Clock Bots that exist on ActivityPub.
+description: About the various Clock Bots that exist on this website.
 tags: [bot, clock, list]
 ---
 @using WebsitePlugin;
