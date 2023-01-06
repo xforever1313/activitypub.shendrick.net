@@ -61,11 +61,11 @@ None
 
 ### How we protect your data
 
-The only data we keep is a list of who is following the bot.  This information is public anyways when one follows the bot, so there's no data to protect in this regard.
+The only data we keep is a list of who is following the bot.  This information is public when one follows the bot, so there's no data to protect in this regard.
 
 ### What data breach procedures we have in place
 
-There's no data _to_ breach.  This site is a static website, everything is out in the open.  You can even see the source code here: [@Model.Site.Config["github"]](@Model.Site.Config["github"]).
+There's no data _to_ breach.  The majority of this site is a static website, everything is out in the open.  You can even see the source code here: [@Model.Site.Config["github"]](@Model.Site.Config["github"]).
 
 ### What third parties we receive data from
 
