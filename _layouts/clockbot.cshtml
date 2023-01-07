@@ -100,6 +100,54 @@ layout: pagebase
                     </li>
                 }
             </ul>
+
+            @if(
+                ( botInfo.get_Latitude() != null ) &&
+                ( botInfo.get_Longitude() != null )
+            )
+            {
+                <h2>Location</h2>
+                <div>
+                    <noscript>JavaScript Required to make a map.</noscript>
+                    <div id="mapid" style="width: 100%;height: 500px;"></div>
+                </div>  
+            }
         </div>
     </div>
 </article>
+
+@if(
+    ( botInfo.get_Latitude() != null ) &&
+    ( botInfo.get_Longitude() != null )
+)
+{
+    <script src="/static/js/leaflet.js"></script>
+    <script>
+        // Create Map.
+        var map = L.map('mapid').setView([@(botInfo.get_Latitude()), @(botInfo.get_Longitude())], 10);
+
+        // Pull from OSM API
+        var osmURL = "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
+
+        // In order to use open street map, we need to attribute to it.
+        var osmAttrib = 'Map Data &copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+
+        // Create the OSM layer.
+        var osm = new L.TileLayer( osmURL, { minZoom: 0, maxZoom: 18, attribution: osmAttrib});
+
+        // Add the osm layer to the map
+        map.addLayer(osm);
+
+        // Create Icon
+        var centerIcon = L.icon({
+            iconUrl: "/static/img/leaflet/marker-icon.png",
+            iconSize: [25, 41],
+            iconAnchor:[12.5, 41],
+            popupAnchor:[0, -30]
+        });
+
+        var marker = L.marker([@(botInfo.get_Latitude()), @(botInfo.get_Longitude())])
+                        .setIcon(centerIcon)
+                        .addTo(map);
+    </script>
+}

@@ -69,6 +69,14 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="/static/css/style.css" id="theme-styles">
+
+    @if(
+        Model.Page.Bag.ContainsKey("layout") &&
+        Model.Page.Bag["layout"]?.ToString() == "clockbot"
+    )
+    {
+        <link rel="stylesheet" href="/static/css/leaflet.css" >
+    }
 </head>
 <body>
     <header>
