@@ -5,6 +5,7 @@
 @using System.Text
 @using Pretzel.Logic.Templating.Context
 @using Page = Pretzel.Logic.Templating.Context.Page
+@using Pretzel.SethExtensions
 
 @{
     TextInfo enUsTextInfo = new CultureInfo( "en-US", false ).TextInfo;
@@ -118,24 +119,32 @@
                         var breadCrumbBuilder = new StringBuilder();
                         breadCrumbBuilder.Append( "/" );
                     }
-                    @foreach( string segment in new Uri( Model.Page.Url ).Segments )
+                    @try
                     {
-                        if( segment == "/" )
+                        @foreach( string segment in new Uri( $"{Model.Site.GetSiteUrl()}{Model.Page.Url}" ).Segments )
                         {
-                            continue;
+                            if( segment == "/" )
+                            {
+                                continue;
+                            }
+                            else if( segment == "index.html" )
+                            {
+                                continue;
+                            }
+                            breadCrumbBuilder.Append( segment );
+                            string displaySegment = segment.TrimEnd( '/' );
+                            if( displaySegment.EndsWith( ".html" ) )
+                            {
+                                displaySegment = Path.GetFileNameWithoutExtension( displaySegment );
+                            }
+                            <a href="@breadCrumbBuilder.ToString()">@enUsTextInfo.ToTitleCase( displaySegment )</a>
+                            <span class="separator"> / </span>
                         }
-                        else if( segment == "index.html" )
-                        {
-                            continue;
-                        }
-                        breadCrumbBuilder.Append( segment );
-                        string displaySegment = segment.TrimEnd( '/' );
-                        if( displaySegment.EndsWith( ".html" ) )
-                        {
-                            displaySegment = Path.GetFileNameWithoutExtension( displaySegment );
-                        }
-                        <a href="@breadCrumbBuilder.ToString()">@enUsTextInfo.ToTitleCase( displaySegment )</a>
-                        <span class="separator"> / </span>
+                    }
+                    catch( UriFormatException e )
+                    {
+                        Console.Error.WriteLine( $"Bad URL on page: {Model.Page.Url}" + Environment.NewLine + e.ToString() );
+                        throw;
                     }
                 </div>
                 <div class="clean-searchbox">
