@@ -125,6 +125,10 @@ namespace WebsitePlugin
         /// </summary>
         public string PublicKeyContents { get; init; } = "";
 
+        public string PublicKeyLocation { get; init; } = "";
+
+        public string PrivateKeyLocation { get; init; } = "";
+
         /// <summary>
         /// Description of where the clock tower is located in real life.
         /// </summary>
@@ -248,6 +252,8 @@ namespace WebsitePlugin
                 // Profile we can statically generate, put in static section.
                 ProfileUrl = new Uri( $"{baseStaticUrl}/profile.json" ),
                 PublicKeyContents = ProfileExtensions.ReadPublicKey( publicKeyFile.FullName ),
+                PublicKeyLocation = ReadDict( "publickey" ),
+                PrivateKeyLocation = ReadDict( "privatekey" ),
                 Summary = ReadDict( "summary" ),
                 TimeZone = TimeZoneInfo.FindSystemTimeZoneById( ReadDict( "timezone" ) ),
                 UserName = userName,

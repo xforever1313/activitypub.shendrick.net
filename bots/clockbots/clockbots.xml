@@ -1,0 +1,18 @@
+---
+layout: nil
+---
+@using WebsitePlugin;
+<?xml version="1.0" encoding="utf-8" ?>
+<ClockTowerConfig>
+@foreach( ClockBotInfo clockBot in Model.Site.GetClockBotInformation() )
+{
+    <ClockTower id="@clockBot.get_UserName()">
+        <TimeZone>@clockBot.get_TimeZone().Id</TimeZone>
+        <Site id="@clockBot.get_UserName()">
+            <PrivateKeyFile>@clockBot.get_PrivateKeyLocation()</PrivateKeyFile>
+            <PublicKeyFile>@clockBot.get_PublicKeyLocation()</PublicKeyFile>
+            <ProfileUrl>@clockBot.get_ProfileUrl()</ProfileUrl>
+        </Site>
+    </ClockTower>
+}
+</ClockTowerConfig>

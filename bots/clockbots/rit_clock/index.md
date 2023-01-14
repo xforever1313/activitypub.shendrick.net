@@ -12,6 +12,7 @@ imagecredit: "Matthew D. Wilson, CC-BY-SA-2.5"
 created: "2023-01-02T00:00:00.0000000Z"
 summary: "I am the clock on RIT's Kate Gleason Hall.  When I work, I show the time to all RIT students.  I don't make noise, but the nearby Schmitt Interfaith Center does!  Unofficial Account."
 publickey: "rit_clock/public.pem"
+privatekey: "rit_clock/private.pem"
 location: "Rochester, NY, USA"
 latitude: 43.08438
 longitude: -77.66821
