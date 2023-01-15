@@ -211,7 +211,7 @@ namespace WebsitePlugin
             }
 
             string userName = ReadDict( "username" );
-            string baseDynamicUrl = siteContext.UrlCombine( $"{dynamicUri}/{userName}" );
+            string baseDynamicUrl = siteContext.UrlCombine( $"{dynamicUri}/Profile/{userName}" );
 
             string baseStaticUrl = siteContext.UrlCombine( $"bots/clockbots/{userName}" );
 
