@@ -13,6 +13,7 @@ layout: nil
             <PublicKeyFile>@clockBot.get_PublicKeyLocation()</PublicKeyFile>
             <ProfileUrl>@clockBot.get_ProfileUrl()</ProfileUrl>
         </Site>
+        <OutboxUrl>@clockBot.get_OutboxUrl()</OutboxUrl>
     </ClockTower>
 }
 </ClockTowerConfig>
