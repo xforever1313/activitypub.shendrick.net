@@ -15,6 +15,7 @@ layout: nil
         </Site>
         <OutboxUrl>@clockBot.get_OutboxUrl()</OutboxUrl>
         <PostUrl>@clockBot.get_PostUrl()</PostUrl>
+        <Location>@clockBot.get_Location()</Location>
     </ClockTower>
 }
 </ClockTowerConfig>
