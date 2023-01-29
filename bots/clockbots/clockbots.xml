@@ -14,6 +14,7 @@ layout: nil
             <ProfileUrl>@clockBot.get_ProfileUrl()</ProfileUrl>
         </Site>
         <OutboxUrl>@clockBot.get_OutboxUrl()</OutboxUrl>
+        <PostUrl>@clockBot.get_PostUrl()</PostUrl>
     </ClockTower>
 }
 </ClockTowerConfig>

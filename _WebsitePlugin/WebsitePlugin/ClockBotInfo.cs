@@ -67,6 +67,11 @@ namespace WebsitePlugin
         public Uri? OutboxUrl { get; init; } = null;
 
         /// <summary>
+        /// The URL to the actual post.
+        /// </summary>
+        public Uri? PostUrl { get; init; } = null;
+
+        /// <summary>
         /// The URL to the inbox JSON information.
         /// </summary>
         public Uri? InboxUrl { get; init; } = null;
@@ -248,6 +253,7 @@ namespace WebsitePlugin
 
                 // Outbox is dynamic, must use service.
                 OutboxUrl = new Uri( $"{baseDynamicUrl}/outbox.json" ),
+                PostUrl = new Uri( $"{baseDynamicUrl}/Post" ),
 
                 // Profile we can statically generate, put in static section.
                 ProfileUrl = new Uri( $"{baseStaticUrl}/profile.json" ),
