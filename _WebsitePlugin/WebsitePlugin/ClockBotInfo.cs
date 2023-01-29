@@ -330,7 +330,7 @@ namespace WebsitePlugin
             var attachments = new List<IObjectOrLink>();
             if( clockBot.Website is not null )
             {
-                attachments.Add( ServiceExtensions.CreateWebsiteAttachment( clockBot.GitHub?.ToString() ) );
+                attachments.Add( ServiceExtensions.CreateWebsiteAttachment( clockBot.Website?.ToString() ) );
             }
 
             if( clockBot.Wikipedia is not null )
